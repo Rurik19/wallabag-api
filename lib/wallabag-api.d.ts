@@ -20,6 +20,7 @@ export declare class WallabagApi {
     getApiVersion(): Promise<any>;
     isCredentialsRequired: () => boolean;
     getApplicationToken(credentials: IWallabagCredentials): Promise<any>;
-    private refreshToken();
+    refreshToken(): Promise<any>;
     private getTokens(content);
+    private isRefreshTokenExpired;
 }
