@@ -23,16 +23,13 @@
     "@types/node": "^7.0.22",
     "chai": "^3.5.0",
     "chai-datetime": "^1.4.1",
-    "https": "^1.0.0",
     "mocha": "^3.4.1",
     "rimraf": "^2.6.1",
     "ts-node": "^3.0.4",
-    "tslint": "^5.2.0",
-    "url": "^0.11.0"
+    "tslint": "^5.2.0"
   },
   "dependencies": {
     "@types/node-fetch": "^1.6.7",
-    "glob": "file:glob",
     "https-proxy-agent": "^1.0.0",
     "node-fetch": "^1.6.3"
   }
