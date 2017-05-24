@@ -1,0 +1,39 @@
+{
+  "name": "wallabag-api",
+  "version": "0.0.2",
+  "description": "implement api methods for wallabag (http://wallabag.org)",
+  "main": "lib/wallabag-api",
+  "typings": "lib/wallabag-api",
+  "scripts": {
+    "clean": "rimraf lib",
+    "lint": "tslint --force --format verbose \"src/**/*.ts\"",
+    "build": "npm run clean && npm run lint && echo Using TypeScript && tsc --version && tsc --pretty",
+    "test": "npm run build && mocha --compilers ts:ts-node/register --recursive test/**/*-spec.ts",
+    "start": "node test/test"
+  },
+  "keywords": [
+    "wallabag"
+  ],
+  "author": "Yuriy Evdokimov",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chai": "^3.5.2",
+    "@types/chai-datetime": "0.0.30",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^7.0.22",
+    "chai": "^3.5.0",
+    "chai-datetime": "^1.4.1",
+    "https": "^1.0.0",
+    "mocha": "^3.4.1",
+    "rimraf": "^2.6.1",
+    "ts-node": "^3.0.4",
+    "tslint": "^5.2.0",
+    "url": "^0.11.0"
+  },
+  "dependencies": {
+    "@types/node-fetch": "^1.6.7",
+    "glob": "file:glob",
+    "https-proxy-agent": "^1.0.0",
+    "node-fetch": "^1.6.3"
+  }
+}

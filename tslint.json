@@ -1,0 +1,12 @@
+{
+  "extends": "tslint:latest",
+  "rules": {
+    "no-unused-expression": false,
+    "no-reference": false,
+    "ordered-imports":  [false],
+    "trailing-comma": [
+      false
+    ],
+    "object-literal-sort-keys": false
+  }
+}
