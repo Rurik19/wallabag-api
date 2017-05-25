@@ -3,7 +3,7 @@ import {Delete, Get, Patch, Post} from "./fetch-api";
 // because wallabag api doesn't return this, it is hardcoded
 const refresnExpirePeriod = 1209600;
 
-export interface IWallabagData {
+export interface IWData {
     url: string | null;
     version: string | null;
     clientId: string | null;
@@ -14,12 +14,14 @@ export interface IWallabagData {
     refreshExpireDate: Date | null;
 }
 
-export interface IWallabagCredentials {
+export interface IWCredentials {
     userLogin: string;
     userPassword: string;
 }
-
-const defaultData: IWallabagData = {
+export interface IWExists {
+  exists: boolean;
+}
+const defaultData: IWData = {
     url: null,
     version: null,
     clientId: null,
@@ -32,18 +34,19 @@ const defaultData: IWallabagData = {
 
 export class WallabagApi {
 
-    private data: IWallabagData;
+    private data: IWData;
 
     constructor(data?: object) {
         // tslint:disable-next-line:no-object-literal-type-assertion
-        this.data = {...defaultData, ...data} as IWallabagData;
+        this.data = {...defaultData, ...data} as IWData;
     }
 
-    public get = (): IWallabagData => this.data;
+// --------- Api related functions
+    public get = (): IWData => this.data;
 
     public set = (data: object): void => {
       // tslint:disable-next-line:no-object-literal-type-assertion
-      this.data = {...this.data, ...data} as IWallabagData;
+      this.data = {...this.data, ...data} as IWData;
     }
 
     public async getApiVersion(): Promise<any>  {
@@ -55,7 +58,8 @@ export class WallabagApi {
     public isCredentialsRequired = (): boolean =>
           this.data.applicationToken === null || this.data.refreshToken === null || this.isRefreshTokenExpired()
 
-    public async getApplicationToken(credentials: IWallabagCredentials): Promise<any> {
+// --------- Tokens related functions
+    public async getApplicationToken(credentials: IWCredentials): Promise<any> {
         return await this.getTokens({
                 client_id: this.data.clientId,
                 client_secret: this.data.clientSecret,
@@ -87,5 +91,61 @@ export class WallabagApi {
         return fetchData;
     }
 
+    private isApplicationTokenExpired = (): boolean => this.data.expireDate < (new Date());
     private isRefreshTokenExpired = (): boolean => this.data.refreshExpireDate < (new Date());
+
+    private checkToken(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            resolve( this.isApplicationTokenExpired() ? this.refreshToken() : 1);
+        });
+    }
+
+// --------- Article related functions
+    public async saveArticle(url: string): Promise<any> {
+        await this.checkToken();
+        return await Post(`${this.data.url}/api/entries.json`,
+                          this.data.applicationToken,
+                          { url });
+    }
+
+    public async entryExists(url: string): Promise<IWExists>  {
+        await this.checkToken();
+        return await Get(`${this.data.url}/api/entries/exists.json?url=${url}`,
+                          this.data.applicationToken);
+    }
+
+    public async getArticle(articleId: number) {
+        await this.checkToken();
+        return await Get(`${this.data.url}/api/entries/${articleId}.json`,
+                          this.data.applicationToken);
+    }
+
+    public async deleteArticle(articleId: number) {
+        await this.checkToken();
+        return await Delete(`${this.data.url}/api/entries/${articleId}.json`,
+                            this.data.applicationToken);
+    }
+
+    public async saveTitle(articleId: number, articleTitle: string) {
+        return await this.patchArticle(articleId, { title: articleTitle });
+    }
+
+    public async saveStarred(articleId: number, articleStarred: number) {
+        return await this.patchArticle(articleId, { starred: articleStarred });
+    }
+
+    public async saveArchived(articleId: number, articleArchived: number) {
+        return await this.patchArticle(articleId, { archive: articleArchived });
+    }
+
+    public async saveTags(articleId: number, tagList: string) {
+        return await this.patchArticle(articleId, { tags: tagList });
+    }
+
+    private async patchArticle(articleId: number, content: object) {
+        await this.checkToken();
+        return await Patch(`${this.data.url}/api/entries/${articleId}.json`,
+                            this.data.applicationToken, content);
+    }
+
 }
