@@ -40,6 +40,10 @@ function getHeaders(token: string): object {
 }
 
 function ftch(url: string, rinit: object): Promise<any> {
+    // tslint:disable-next-line:no-console
+    console.log(url);
+    // tslint:disable-next-line:no-console
+    console.log(JSON.stringify(rinit));
     return Fetch(url, rinit).then((response: any) => response.ok
     ? response.json()
     : response.json().then((err: Error) => Promise.reject(err)));

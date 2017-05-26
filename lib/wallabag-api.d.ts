@@ -37,4 +37,5 @@ export declare class WallabagApi {
     saveArchived(articleId: number, articleArchived: number): Promise<any>;
     saveTags(articleId: number, tagList: string): Promise<any>;
     private patchArticle(articleId, content);
+    getArticles(page?: number, perPage?: number): Promise<any>;
 }

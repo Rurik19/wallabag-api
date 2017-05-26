@@ -147,5 +147,10 @@ export class WallabagApi {
         return await Patch(`${this.data.url}/api/entries/${articleId}.json`,
                             this.data.applicationToken, content);
     }
-
+    public async getArticles(page: number = 1, perPage: number = 30): Promise<any> {
+        await this.checkToken();
+        const url = `${this.data.url}/api/entries.json?page=${page}&perPage=${perPage}`;
+        // const url = `${this.data.url}/api/entries.json`;
+        return await Get(url, this.data.applicationToken );
+    }
 }
