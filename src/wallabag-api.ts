@@ -99,6 +99,7 @@ export class WallabagApi {
             resolve( this.isApplicationTokenExpired() ? this.refreshToken() : 1);
         });
     }
+// ---- todo : export, reload
 
 // --------- Article related functions
     public async saveArticle(url: string): Promise<any> {
@@ -147,10 +148,28 @@ export class WallabagApi {
         return await Patch(`${this.data.url}/api/entries/${articleId}.json`,
                             this.data.applicationToken, content);
     }
-    public async getArticles(page: number = 1, perPage: number = 30): Promise<any> {
+
+    public async getArticles({ page, perPage, sort, order, since, archived, starred, tags }): Promise<any> {
         await this.checkToken();
-        const url = `${this.data.url}/api/entries.json?page=${page}&perPage=${perPage}`;
-        // const url = `${this.data.url}/api/entries.json`;
+        let url = `${this.data.url}/api/entries.json`;
+        let params = [];
+        if (page !== undefined) { params = [...params, `page=${page}`]; }
+        if (perPage !== undefined) { params = [...params, `perPage=${perPage}` ]; }
+        if (sort !== undefined) { params = [...params,  `sort=${sort}`]; }
+        if (order !== undefined) { params = [...params, `order=${order}`]; }
+        if (archived !== undefined) { params = [...params, `archived=${archived}`]; }
+        if (starred !== undefined) { params = [...params, `starred=${starred}`]; }
+        if (params.length > 0) { url = `${url}?${params.join('&')}`; }
         return await Get(url, this.data.applicationToken );
+    }
+
+// -------- Tags related functions
+    public async getAllTags() {
+        await this.checkToken();
+        return await Get(`${this.data.url}/api/tags.json`, this.data.applicationToken);
+    }
+    public async getArticleTags(articleId: number) {
+        await this.checkToken();
+        return await Get(`${this.data.url}/api/entries/${articleId}/tags.json`, this.data.applicationToken);
     }
 }

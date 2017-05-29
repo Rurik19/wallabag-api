@@ -38,4 +38,6 @@ export declare class WallabagApi {
     saveTags(articleId: number, tagList: string): Promise<any>;
     private patchArticle(articleId, content);
     getArticles(page?: number, perPage?: number): Promise<any>;
+    getAllTags(): Promise<any>;
+    getArticleTags(articleId: number): Promise<any>;
 }
