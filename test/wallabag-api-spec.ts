@@ -3,18 +3,16 @@
 /// <reference path="../node_modules/@types/chai-datetime/index.d.ts" />
 
 import * as chai from "chai";
-import { WallabagApi, IWData, IWCredentials } from "../src/wallabag-api";
+import { WallabagApi } from "../src/wallabag-api";
 const expect = chai.expect;
-
+// process.env.http_proxy = 'http://127.0.0.1:8888';
 const validData = {
   url: "https://app.wallabag.it",
   clientId: "490_4cp3yxxun6040k0ggo88kwwws8wcko008k8g884kk88gcs48wo",
   clientSecret: "3oy6qm18spkws0kksk44skokc8s0cwc0k008g0okkgosks4c4"
 };
-const validCredentials: IWCredentials = {
-  userLogin: "rurik19",
-  userPassword: "PSNuPR19"
-};
+const userLogin = "rurik19";
+const userPassword = "PSNuPR19";
 const validUrlToSave = "https://habrahabr.ru/company/emercoin/blog/329276/";
 const testTitle = 'test title';
 const testTagList = 'tag1,tag2,tag3';
@@ -48,7 +46,7 @@ describe("Wallabag Api Class", () => {
     expect(api.get().version).to.have.length.above(4);
   });
   it("getApplicationToken()", async () => {
-    await api.getApplicationToken(validCredentials);
+    await api.getApplicationToken(userLogin, userPassword);
     expect(api.get().applicationToken).to.be.a("string");
     expect(api.get().refreshToken).to.be.a("string");
     expect(api.get().expireDate).to.be.a("Date");
@@ -101,13 +99,20 @@ describe("Wallabag Api Class", () => {
     expect(article.tags.map((t) => t.label).join(',')).to.be.equal(testTagList);
 
   });
+  let tag1id = 0;
   it("getArticleTags()", async () => {
     const tags = await api.getArticleTags(id);
     expect(tags).to.be.a('Array');
-    expect(tags).to.have.length.above(0);
+    expect(tags).to.be.lengthOf(3);
+    tag1id = tags[0].id;
+  });
+  it('deleteArticleTag()', async () => {
+    const article = await api.deleteArticleTag(id, tag1id);
+    expect(article.tags).to.be.a('Array');
+    expect(article.tags).to.be.lengthOf(2);
   });
   it("getArticles()", async () => {
-    const articles = await api.getArticles(1, 2);
+    const articles = await api.getArticles({ page: 1, perPage: 2 } );
     // // delete article.content;
     //  // tslint:disable-next-line:no-console
     // console.log(articles);

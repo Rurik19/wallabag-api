@@ -7,11 +7,10 @@
 3 info using node@v7.6.0
 4 info git [ 'status', '--porcelain' ]
 5 verbose stack Error: Git working directory not clean.
-5 verbose stack M lib/fetch-api.js
+5 verbose stack D .npmignore
 5 verbose stack M lib/wallabag-api.d.ts
 5 verbose stack M lib/wallabag-api.js
 5 verbose stack D npm-debug.log
-5 verbose stack M src/fetch-api.ts
 5 verbose stack M src/wallabag-api.ts
 5 verbose stack M test/wallabag-api-spec.ts
 5 verbose stack     at C:\Program Files\nodejs\node_modules\npm\lib\version.js:247:19
@@ -30,11 +29,10 @@
 9 error node v7.6.0
 10 error npm  v4.1.2
 11 error Git working directory not clean.
-11 error M lib/fetch-api.js
+11 error D .npmignore
 11 error M lib/wallabag-api.d.ts
 11 error M lib/wallabag-api.js
 11 error D npm-debug.log
-11 error M src/fetch-api.ts
 11 error M src/wallabag-api.ts
 11 error M test/wallabag-api-spec.ts
 12 error If you need help, you may report this error at:

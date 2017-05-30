@@ -3,6 +3,17 @@ import {Delete, Get, Patch, Post} from "./fetch-api";
 // because wallabag api doesn't return this, it is hardcoded
 const refresnExpirePeriod = 1209600;
 
+export interface IFilter {
+  page: number | undefined;
+  perPage: number | undefined;
+  sort: string | undefined;
+  order: string | undefined;
+  since: number | undefined;
+  archived: number | undefined;
+  starred: number | undefined;
+  tags: string | undefined;
+}
+
 export interface IWData {
     url: string | null;
     version: string | null;
@@ -14,10 +25,6 @@ export interface IWData {
     refreshExpireDate: Date | null;
 }
 
-export interface IWCredentials {
-    userLogin: string;
-    userPassword: string;
-}
 export interface IWExists {
   exists: boolean;
 }
@@ -59,13 +66,13 @@ export class WallabagApi {
           this.data.applicationToken === null || this.data.refreshToken === null || this.isRefreshTokenExpired()
 
 // --------- Tokens related functions
-    public async getApplicationToken(credentials: IWCredentials): Promise<any> {
+    public async getApplicationToken(username: string, password: string): Promise<any> {
         return await this.getTokens({
                 client_id: this.data.clientId,
                 client_secret: this.data.clientSecret,
                 grant_type: "password",
-                password: credentials.userPassword,
-                username: credentials.userLogin,
+                password,
+                username
             });
     }
 
@@ -149,7 +156,8 @@ export class WallabagApi {
                             this.data.applicationToken, content);
     }
 
-    public async getArticles({ page, perPage, sort, order, since, archived, starred, tags }): Promise<any> {
+    public async getArticles(filter: any): Promise<any> {
+        const { page, perPage, sort, order, since, archived, starred, tags } =  filter;
         await this.checkToken();
         let url = `${this.data.url}/api/entries.json`;
         let params = [];
@@ -172,4 +180,9 @@ export class WallabagApi {
         await this.checkToken();
         return await Get(`${this.data.url}/api/entries/${articleId}/tags.json`, this.data.applicationToken);
     }
+    public async deleteArticleTag(articleId: number, tagid: number) {
+        await this.checkToken();
+        return await Delete(`${this.data.url}/api/entries/${articleId}/tags/${tagid}.json`, this.data.applicationToken);
+    }
+
 }

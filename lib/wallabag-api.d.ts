@@ -1,3 +1,13 @@
+export interface IFilter {
+    page: number | undefined;
+    perPage: number | undefined;
+    sort: string | undefined;
+    order: string | undefined;
+    since: number | undefined;
+    archived: number | undefined;
+    starred: number | undefined;
+    tags: string | undefined;
+}
 export interface IWData {
     url: string | null;
     version: string | null;
@@ -7,10 +17,6 @@ export interface IWData {
     refreshToken: string | null;
     expireDate: Date | null;
     refreshExpireDate: Date | null;
-}
-export interface IWCredentials {
-    userLogin: string;
-    userPassword: string;
 }
 export interface IWExists {
     exists: boolean;
@@ -22,7 +28,7 @@ export declare class WallabagApi {
     set: (data: object) => void;
     getApiVersion(): Promise<any>;
     isCredentialsRequired: () => boolean;
-    getApplicationToken(credentials: IWCredentials): Promise<any>;
+    getApplicationToken(username: string, password: string): Promise<any>;
     refreshToken(): Promise<any>;
     private getTokens(content);
     private isApplicationTokenExpired;
@@ -37,7 +43,8 @@ export declare class WallabagApi {
     saveArchived(articleId: number, articleArchived: number): Promise<any>;
     saveTags(articleId: number, tagList: string): Promise<any>;
     private patchArticle(articleId, content);
-    getArticles(page?: number, perPage?: number): Promise<any>;
+    getArticles(filter: any): Promise<any>;
     getAllTags(): Promise<any>;
     getArticleTags(articleId: number): Promise<any>;
+    deleteArticleTag(articleId: number, tagid: number): Promise<any>;
 }
