@@ -1,6 +1,6 @@
 {
   "name": "wallabag-api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "implement api methods for wallabag (http://wallabag.org)",
   "main": "lib/wallabag-api",
   "typings": "lib/wallabag-api",
