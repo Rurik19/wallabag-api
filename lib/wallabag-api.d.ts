@@ -26,7 +26,7 @@ export declare class WallabagApi {
     constructor(data?: object);
     get: () => IWData;
     set: (data: object) => void;
-    getApiVersion(): Promise<any>;
+    getApiVersion(url?: string): Promise<any>;
     isCredentialsRequired: () => boolean;
     getApplicationToken(username: string, password: string): Promise<any>;
     refreshToken(): Promise<any>;

@@ -56,8 +56,9 @@ export class WallabagApi {
       this.data = {...this.data, ...data} as IWData;
     }
 
-    public async getApiVersion(): Promise<any>  {
-        const version = await Get(`${this.data.url}/api/version`, "");
+    public async getApiVersion(url?: string): Promise<any>  {
+        const urlloc = (typeof url === 'string') ? url : this.data.url;
+        const version = await Get(`${urlloc}/api/version`, "");
         this.data.version = version;
         return version;
     }
