@@ -59,7 +59,9 @@ export class WallabagApi {
     public async getApiVersion(url?: string): Promise<any>  {
         const urlloc = (typeof url === 'string') ? url : this.data.url;
         const version = await Get(`${urlloc}/api/version`, "");
-        this.data.version = version;
+        if (typeof url !== 'string') {
+          this.data.version = version;
+        }
         return version;
     }
 
