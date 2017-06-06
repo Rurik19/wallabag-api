@@ -28,7 +28,7 @@ export interface IWData {
 export interface IWExists {
   exists: boolean;
 }
-const defaultData: IWData = {
+export const defaultData: IWData = {
     url: null,
     version: null,
     clientId: null,
