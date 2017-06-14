@@ -11,8 +11,8 @@ const validData = {
   clientId: "490_4cp3yxxun6040k0ggo88kwwws8wcko008k8g884kk88gcs48wo",
   clientSecret: "3oy6qm18spkws0kksk44skokc8s0cwc0k008g0okkgosks4c4"
 };
-const userLogin = ""; // for test write here valid credentials
-const userPassword = "";
+const userLogin = "Rurik19"; // for test write here valid credentials
+const userPassword = "PSNuPR19";
 const validUrlToSave = "https://habrahabr.ru/company/emercoin/blog/329276/";
 const testTitle = 'test title';
 const testTagList = 'tag1,tag2,tag3';

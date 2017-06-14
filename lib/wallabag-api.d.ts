@@ -21,6 +21,7 @@ export interface IWData {
 export interface IWExists {
     exists: boolean;
 }
+export declare const defaultData: IWData;
 export declare class WallabagApi {
     private data;
     constructor(data?: object);

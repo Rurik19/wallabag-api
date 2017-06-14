@@ -138,18 +138,22 @@ export class WallabagApi {
     }
 
     public async saveTitle(articleId: number, articleTitle: string) {
+        await this.checkToken();
         return await this.patchArticle(articleId, { title: articleTitle });
     }
 
     public async saveStarred(articleId: number, articleStarred: number) {
+        await this.checkToken();
         return await this.patchArticle(articleId, { starred: articleStarred });
     }
 
     public async saveArchived(articleId: number, articleArchived: number) {
+        await this.checkToken();
         return await this.patchArticle(articleId, { archive: articleArchived });
     }
 
     public async saveTags(articleId: number, tagList: string) {
+        await this.checkToken();
         return await this.patchArticle(articleId, { tags: tagList });
     }
 
