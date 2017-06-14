@@ -32,9 +32,9 @@ export declare class WallabagApi {
     getApplicationToken(username: string, password: string): Promise<any>;
     refreshToken(): Promise<any>;
     private getTokens(content);
-    private isApplicationTokenExpired;
-    private isRefreshTokenExpired;
-    private checkToken();
+    isApplicationTokenExpired: () => boolean;
+    isRefreshTokenExpired: () => boolean;
+    checkToken(): Promise<any>;
     saveArticle(url: string): Promise<any>;
     entryExists(url: string): Promise<IWExists>;
     getArticle(articleId: number): Promise<any>;
