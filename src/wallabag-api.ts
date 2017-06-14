@@ -101,10 +101,10 @@ export class WallabagApi {
         return fetchData;
     }
 
-    private isApplicationTokenExpired = (): boolean => this.data.expireDate < (new Date());
-    private isRefreshTokenExpired = (): boolean => this.data.refreshExpireDate < (new Date());
+    public isApplicationTokenExpired = (): boolean => this.data.expireDate < (new Date());
+    public isRefreshTokenExpired = (): boolean => this.data.refreshExpireDate < (new Date());
 
-    private checkToken(): Promise<any> {
+    public checkToken(): Promise<any> {
         return new Promise((resolve, reject) => {
             resolve( this.isApplicationTokenExpired() ? this.refreshToken() : 1);
         });
