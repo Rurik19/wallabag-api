@@ -11,11 +11,12 @@ const validData = {
   clientId: "490_4cp3yxxun6040k0ggo88kwwws8wcko008k8g884kk88gcs48wo",
   clientSecret: "3oy6qm18spkws0kksk44skokc8s0cwc0k008g0okkgosks4c4"
 };
-const userLogin = "Rurik19"; // for test write here valid credentials
-const userPassword = "PSNuPR19";
+const userLogin = "User"; // for test write here valid credentials
+const userPassword = "*******";
 const validUrlToSave = "https://habrahabr.ru/company/emercoin/blog/329276/";
 const testTitle = 'test title';
 const testTagList = 'tag1,tag2,tag3';
+const addTagList = 'tag4,tag5';
 
 describe("WallabagApi module", () => {
     it("should provide Wallabag api", () => {
@@ -115,11 +116,18 @@ describe("Wallabag Api Class", () => {
     expect(article.tags).to.be.a('Array');
     expect(article.tags).to.be.lengthOf(2);
   });
+  it('addTags()', async () => {
+    const article = await api.addTags(id, addTagList);
+    expect(article.tags).to.be.a('Array');
+    expect(article.tags).to.be.lengthOf(4);
+  });
+  it('removeTags()', async () => {
+    const article = await api.removeTags(id, addTagList);
+    expect(article.tags).to.be.a('Array');
+    expect(article.tags).to.be.lengthOf(2);
+  });
   it("getArticles()", async () => {
     const articles = await api.getArticles({ page: 1, perPage: 2 } );
-    // // delete article.content;
-    //  // tslint:disable-next-line:no-console
-    // console.log(articles);
     expect(articles).to.not.be.undefined;
     expect(articles._embedded.items).to.be.a('Array');
     expect(articles._embedded.items).to.be.lengthOf(2);

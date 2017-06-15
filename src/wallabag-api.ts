@@ -154,12 +154,7 @@ export class WallabagApi {
         return await this.patchArticle(articleId, { archive: articleArchived });
     }
 
-    public async saveTags(articleId: number, tagList: string) {
-        await this.checkToken();
-        return await this.patchArticle(articleId, { tags: tagList });
-    }
-
-    private async patchArticle(articleId: number, content: object) {
+    public async patchArticle(articleId: number, content: object) {
         await this.checkToken();
         return await Patch(`${this.data.url}/api/entries/${articleId}.json`,
                             this.data.applicationToken, content);
@@ -189,9 +184,35 @@ export class WallabagApi {
         await this.checkToken();
         return await Get(`${this.data.url}/api/entries/${articleId}/tags.json`, this.data.applicationToken);
     }
-    public async deleteArticleTag(articleId: number, tagid: number) {
+    public async deleteArticleTag(articleId: number, tagid: number): Promise<any> {
         await this.checkToken();
         return await Delete(`${this.data.url}/api/entries/${articleId}/tags/${tagid}.json`, this.data.applicationToken);
+    }
+
+    public async saveTags(articleId: number, tagList: string) {
+        await this.checkToken();
+        return await this.patchArticle(articleId, { tags: tagList });
+    }
+
+    public async addTags(articleId: number, tagList: string) {
+        await this.checkToken();
+        const aTags = await this.getArticleTags(articleId);
+        const bTags = tagList.split(',');
+        const tagListToSet = aTags.map((t) => t.label)
+            .concat(bTags)
+            .filter((x, i, a) => a.indexOf(x) === i)
+            .join(',');
+        return await this.patchArticle(articleId, { tags: tagListToSet });
+    }
+
+    public async removeTags(articleId: number, tagList: string) {
+        await this.checkToken();
+        const aTags = await this.getArticleTags(articleId);
+        const bTags = tagList.split(',');
+        const tagsToRemove = aTags.filter((x) => bTags.indexOf(x.label) >= 0)
+                              .map((t) => this.deleteArticleTag(articleId, t.id));
+        await Promise.all(tagsToRemove);
+        return await this.getArticle(articleId);
     }
 
 }

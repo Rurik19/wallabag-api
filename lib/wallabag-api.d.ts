@@ -42,10 +42,12 @@ export declare class WallabagApi {
     saveTitle(articleId: number, articleTitle: string): Promise<any>;
     saveStarred(articleId: number, articleStarred: number): Promise<any>;
     saveArchived(articleId: number, articleArchived: number): Promise<any>;
-    saveTags(articleId: number, tagList: string): Promise<any>;
-    private patchArticle(articleId, content);
+    patchArticle(articleId: number, content: object): Promise<any>;
     getArticles(filter: any): Promise<any>;
     getAllTags(): Promise<any>;
     getArticleTags(articleId: number): Promise<any>;
     deleteArticleTag(articleId: number, tagid: number): Promise<any>;
+    saveTags(articleId: number, tagList: string): Promise<any>;
+    addTags(articleId: number, tagList: string): Promise<any>;
+    removeTags(articleId: number, tagList: string): Promise<any>;
 }
