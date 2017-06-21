@@ -169,7 +169,7 @@ export class WallabagApi {
         if (perPage !== undefined) { params = [...params, `perPage=${perPage}` ]; }
         if (sort !== undefined) { params = [...params,  `sort=${sort}`]; }
         if (order !== undefined) { params = [...params, `order=${order}`]; }
-        if (archived !== undefined) { params = [...params, `archived=${archived}`]; }
+        if (archived !== undefined) { params = [...params, `archive=${archived}`]; }
         if (starred !== undefined) { params = [...params, `starred=${starred}`]; }
         if (tags !== undefined) { params = [...params, `tags=${tags}`]; }
         if (params.length > 0) { url = `${url}?${params.join('&')}`; }
