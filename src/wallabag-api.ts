@@ -171,6 +171,7 @@ export class WallabagApi {
         if (order !== undefined) { params = [...params, `order=${order}`]; }
         if (archived !== undefined) { params = [...params, `archived=${archived}`]; }
         if (starred !== undefined) { params = [...params, `starred=${starred}`]; }
+        if (tags !== undefined) { params = [...params, `tags=${tags}`]; }
         if (params.length > 0) { url = `${url}?${params.join('&')}`; }
         return await Get(url, this.data.applicationToken );
     }
